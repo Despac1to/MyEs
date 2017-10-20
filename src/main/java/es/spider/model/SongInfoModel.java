@@ -2,6 +2,7 @@ package es.spider.model;
 
 public class SongInfoModel {
 
+	private Long id;
 	private String song;
 	private String singer;
 	private String commentUser;
@@ -9,6 +10,14 @@ public class SongInfoModel {
 	private String commentTime;
 	private String commentContent;
 	private int commentAppreciation;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getSong() {
 		return song;

@@ -1,12 +1,10 @@
-package es.spider.dao;
+package es.index.service;
 
 import java.util.List;
 
 import es.spider.model.SongInfoModel;
 
-public interface SongInfoDao {
+public interface SongInfoService {
 
-	void saveSongInfoModels(List<SongInfoModel> songInfoModels);
-	
 	List<SongInfoModel> getSongInfoModelByLimit(long start, long limit);
 }

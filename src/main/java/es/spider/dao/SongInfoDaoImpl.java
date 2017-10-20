@@ -1,7 +1,9 @@
 package es.spider.dao;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,7 +16,7 @@ import com.ibatis.sqlmap.client.SqlMapExecutor;
 import es.spider.model.SongInfo;
 import es.spider.model.SongInfoModel;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "unchecked"})
 public class SongInfoDaoImpl extends SqlMapClientDaoSupport implements SongInfoDao{
 
 	private Log logger = LogFactory.getLog(SongInfoDaoImpl.class);
@@ -39,5 +41,13 @@ public class SongInfoDaoImpl extends SqlMapClientDaoSupport implements SongInfoD
 				logger.error("Insert error!", e);
 			}
 		}
+	}
+
+	@Override
+	public List<SongInfoModel> getSongInfoModelByLimit(long start, long limit) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("start", start);
+		paramMap.put("limit", limit);
+		return getSqlMapClientTemplate().queryForList("getSongInfoModelByLimit", paramMap);
 	}
 }

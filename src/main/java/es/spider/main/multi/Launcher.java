@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import es.spider.util.SongUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.CollectionUtils;
@@ -38,7 +39,7 @@ public class Launcher {
 
 	public void launch() {
 		try {
-			initSongList();
+			SongUtil.initSongList(totalSongList, limit, offSet, songListPrefix);
 			List<SongInfoModel> songInfoModels = new ArrayList<>();
 			List<String> songs = new ArrayList<>();
 			BlockingQueue<String> songListQueue = SongQueueUtil.getSongListQueue();
@@ -79,25 +80,6 @@ public class Launcher {
 			e.printStackTrace();
 		} finally {
 			executorService.shutdown();
-		}
-	}
-
-	private void initSongList() throws InterruptedException, IOException {
-		if (totalSongList > limit) {
-			int tmpLimit = limit;
-			int tmpOffset = offSet;
-			while (totalSongList > tmpOffset) {
-				String suffix = "limit=" + tmpLimit + "&offset=" + tmpOffset;
-				tmpOffset += tmpLimit;
-
-				if (tmpOffset + tmpLimit > totalSongList) {
-					tmpLimit = totalSongList - tmpOffset;
-				}
-				HtmlParser.putSongList(HtmlFetcher.fetchUrl(songListPrefix + suffix));
-			}
-		} else {
-			String suffix = "limit=" + totalSongList + "&offset=" + offSet;
-			HtmlParser.putSongList(HtmlFetcher.fetchUrl(songListPrefix + suffix));
 		}
 	}
 
